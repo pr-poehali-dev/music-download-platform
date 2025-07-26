@@ -229,14 +229,10 @@ const Index = () => {
           <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
             Слушай, скачивай и наслаждайся любимой музыкой в высочайшем качестве
           </p>
-          <div className="flex justify-center space-x-4">
+          <div className="flex justify-center">
             <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3">
               <Icon name="Play" className="mr-2" size={20} />
               Начать слушать
-            </Button>
-            <Button variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/10 px-8 py-3">
-              <Icon name="Download" className="mr-2" size={20} />
-              Скачать приложение
             </Button>
           </div>
         </div>
