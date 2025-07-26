@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -9,6 +9,10 @@ const Index = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrack, setCurrentTrack] = useState(null);
   const [volume, setVolume] = useState([75]);
+  const [progress, setProgress] = useState([0]);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const audioRef = useRef(null);
 
   const tracks = [
     {
@@ -17,6 +21,7 @@ const Index = () => {
       artist: "SynthWave",
       album: "Neon Nights",
       duration: "3:42",
+      url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
       image: "/img/85661ab1-ba8f-4a37-8823-3f036f3ef575.jpg"
     },
     {
@@ -25,6 +30,7 @@ const Index = () => {
       artist: "Street Beats",
       album: "City Vibes",
       duration: "4:15",
+      url: "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
       image: "/img/b6dd64db-428a-486f-819a-fd068ae65a5c.jpg"
     },
     {
@@ -33,15 +39,93 @@ const Index = () => {
       artist: "Pastel Dreams",
       album: "Soft Horizons",
       duration: "3:28",
+      url: "https://file-examples.com/storage/fe68c8dc7d66f447a9512b4/2017/11/file_example_MP3_700KB.mp3",
       image: "/img/445c322b-abcb-4b07-befc-b3fa546096b9.jpg"
     }
   ];
 
   const genres = ["Поп", "Рок", "Электронная", "Хип-хоп", "Джаз", "Классическая"];
 
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const updateTime = () => {
+      setCurrentTime(audio.currentTime);
+      setProgress([(audio.currentTime / audio.duration) * 100 || 0]);
+    };
+
+    const handleLoadedMetadata = () => {
+      setDuration(audio.duration);
+    };
+
+    const handleEnded = () => {
+      setIsPlaying(false);
+      setProgress([0]);
+      setCurrentTime(0);
+    };
+
+    audio.addEventListener('timeupdate', updateTime);
+    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+    audio.addEventListener('ended', handleEnded);
+
+    return () => {
+      audio.removeEventListener('timeupdate', updateTime);
+      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      audio.removeEventListener('ended', handleEnded);
+    };
+  }, [currentTrack]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    audio.volume = volume[0] / 100;
+  }, [volume]);
+
   const playTrack = (track) => {
     setCurrentTrack(track);
     setIsPlaying(true);
+  };
+
+  const togglePlayPause = () => {
+    const audio = audioRef.current;
+    if (!audio || !currentTrack) return;
+
+    if (isPlaying) {
+      audio.pause();
+    } else {
+      audio.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleProgressChange = (value) => {
+    const audio = audioRef.current;
+    if (!audio || !duration) return;
+    
+    const newTime = (value[0] / 100) * duration;
+    audio.currentTime = newTime;
+    setProgress(value);
+  };
+
+  const formatTime = (time) => {
+    if (!time || isNaN(time)) return '0:00';
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
+
+  const skipToNext = () => {
+    const currentIndex = tracks.findIndex(track => track.id === currentTrack?.id);
+    const nextIndex = (currentIndex + 1) % tracks.length;
+    playTrack(tracks[nextIndex]);
+  };
+
+  const skipToPrevious = () => {
+    const currentIndex = tracks.findIndex(track => track.id === currentTrack?.id);
+    const prevIndex = currentIndex > 0 ? currentIndex - 1 : tracks.length - 1;
+    playTrack(tracks[prevIndex]);
   };
 
   return (
@@ -191,17 +275,17 @@ const Index = () => {
                 <Button variant="ghost" size="icon" className="text-white/80 hover:text-white">
                   <Icon name="Shuffle" size={20} />
                 </Button>
-                <Button variant="ghost" size="icon" className="text-white/80 hover:text-white">
+                <Button variant="ghost" size="icon" className="text-white/80 hover:text-white" onClick={skipToPrevious}>
                   <Icon name="SkipBack" size={20} />
                 </Button>
                 <Button 
                   size="icon" 
                   className="bg-white text-black hover:bg-white/90 w-12 h-12"
-                  onClick={() => setIsPlaying(!isPlaying)}
+                  onClick={togglePlayPause}
                 >
                   <Icon name={isPlaying ? "Pause" : "Play"} size={24} />
                 </Button>
-                <Button variant="ghost" size="icon" className="text-white/80 hover:text-white">
+                <Button variant="ghost" size="icon" className="text-white/80 hover:text-white" onClick={skipToNext}>
                   <Icon name="SkipForward" size={20} />
                 </Button>
                 <Button variant="ghost" size="icon" className="text-white/80 hover:text-white">
@@ -226,18 +310,30 @@ const Index = () => {
             
             <div className="mt-2">
               <Slider
-                value={[25]}
+                value={progress}
+                onValueChange={handleProgressChange}
                 max={100}
-                step={1}
+                step={0.1}
                 className="w-full"
               />
               <div className="flex justify-between text-xs text-white/60 mt-1">
-                <span>1:23</span>
-                <span>{currentTrack.duration}</span>
+                <span>{formatTime(currentTime)}</span>
+                <span>{formatTime(duration)}</span>
               </div>
             </div>
           </div>
         </div>
+      )}
+      
+      {/* Hidden Audio Element */}
+      {currentTrack && (
+        <audio
+          ref={audioRef}
+          src={currentTrack.url}
+          autoPlay={isPlaying}
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
+        />
       )}
     </div>
   );
