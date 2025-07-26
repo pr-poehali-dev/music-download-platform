@@ -17,30 +17,84 @@ const Index = () => {
   const tracks = [
     {
       id: 1,
-      title: "Electric Dreams",
-      artist: "SynthWave",
-      album: "Neon Nights",
-      duration: "3:42",
-      url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
-      image: "/img/85661ab1-ba8f-4a37-8823-3f036f3ef575.jpg"
+      title: "Blinding Lights",
+      artist: "The Weeknd",
+      album: "After Hours",
+      duration: "3:20",
+      url: "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
+      image: "/img/19ee5e9a-6b54-4514-9bdb-970d04011efb.jpg"
     },
     {
       id: 2,
-      title: "Urban Pulse",
-      artist: "Street Beats",
-      album: "City Vibes",
-      duration: "4:15",
-      url: "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
-      image: "/img/b6dd64db-428a-486f-819a-fd068ae65a5c.jpg"
+      title: "Shape of You",
+      artist: "Ed Sheeran",
+      album: "÷ (Divide)",
+      duration: "3:53",
+      url: "https://file-examples.com/storage/fe68c8dc7d66f447a9512b4/2017/11/file_example_MP3_700KB.mp3",
+      image: "/img/de980250-ff32-49fd-ad37-3087abe58501.jpg"
     },
     {
       id: 3,
-      title: "Dreamy Clouds",
-      artist: "Pastel Dreams",
-      album: "Soft Horizons",
-      duration: "3:28",
+      title: "Bohemian Rhapsody",
+      artist: "Queen",
+      album: "A Night at the Opera",
+      duration: "5:55",
+      url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+      image: "/img/96c7256b-78c5-4081-9584-e371de7463a1.jpg"
+    },
+    {
+      id: 4,
+      title: "Good 4 U",
+      artist: "Olivia Rodrigo",
+      album: "SOUR",
+      duration: "2:58",
+      url: "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
+      image: "/img/19ee5e9a-6b54-4514-9bdb-970d04011efb.jpg"
+    },
+    {
+      id: 5,
+      title: "Levitating",
+      artist: "Dua Lipa",
+      album: "Future Nostalgia",
+      duration: "3:23",
       url: "https://file-examples.com/storage/fe68c8dc7d66f447a9512b4/2017/11/file_example_MP3_700KB.mp3",
-      image: "/img/445c322b-abcb-4b07-befc-b3fa546096b9.jpg"
+      image: "/img/592f2da4-59d6-46e7-98d7-02e23c523eea.jpg"
+    },
+    {
+      id: 6,
+      title: "Watermelon Sugar",
+      artist: "Harry Styles",
+      album: "Fine Line",
+      duration: "2:54",
+      url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+      image: "/img/de980250-ff32-49fd-ad37-3087abe58501.jpg"
+    },
+    {
+      id: 7,
+      title: "Bad Guy",
+      artist: "Billie Eilish",
+      album: "When We All Fall Asleep",
+      duration: "3:14",
+      url: "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
+      image: "/img/592f2da4-59d6-46e7-98d7-02e23c523eea.jpg"
+    },
+    {
+      id: 8,
+      title: "Someone Like You",
+      artist: "Adele",
+      album: "21",
+      duration: "4:45",
+      url: "https://file-examples.com/storage/fe68c8dc7d66f447a9512b4/2017/11/file_example_MP3_700KB.mp3",
+      image: "/img/592f2da4-59d6-46e7-98d7-02e23c523eea.jpg"
+    },
+    {
+      id: 9,
+      title: "Thunderstruck",
+      artist: "AC/DC",
+      album: "The Razors Edge",
+      duration: "4:52",
+      url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+      image: "/img/96c7256b-78c5-4081-9584-e371de7463a1.jpg"
     }
   ];
 
